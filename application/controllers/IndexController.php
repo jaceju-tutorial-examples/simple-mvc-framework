@@ -6,25 +6,25 @@ class IndexController extends Controller
     /**
      * @var array
      */
-    private $_todos = null;
+    private $_todo = null;
 
-    public function __construct()
+    public function __construct(Todo $todo)
     {
-        $this->_todos = new Todo();
+        $this->_todo = $todo;
     }
 
     protected function index()
     {
         $view = new View_Html();
-        $view->assign('todos', $this->_todos->fetchAll());
-        $view->render('index.tpl.php');
+        $view->assign('todos', $this->_todo->fetchAll());
+        $view->render('index.phtml');
     }
 
     protected function add()
     {
         if ($this->_request->isPost()) {
             $task = $_POST['task'];
-            $this->_todos->add($task);
+            $this->_todo->add($task);
             $this->_redirect('./');
         }
     }
@@ -33,7 +33,7 @@ class IndexController extends Controller
     {
         if ($this->_request->isPost()) {
             $id = $_POST['id'];
-            $this->_todos->done($id);
+            $this->_todo->done($id);
             $this->_redirect('./');
         }
     }

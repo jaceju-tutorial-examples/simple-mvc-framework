@@ -1,29 +1,41 @@
 <?php
-require APP_PATH . '/controllers/IndexController.php';
 
 class IndexControllerTest extends Test_Controller
 {
     public function setUp()
     {
-        $pdo = new PDO(
-                $GLOBALS['DB_DSN'],
-                $GLOBALS['DB_USER'],
-                $GLOBALS['DB_PASSWD']);
-        $pdo->query('TRUNCATE TABLE todo');
-
-        Todo::setDb($pdo);
-
+        $todo = $this->_setUpTodo();
         $this->_request = new Request();
         $this->_response = new Response();
-        $this->_controller = new IndexController();
+        $this->_controller = new IndexController($todo);
         parent::setUp();
+    }
+
+    protected function _setUpTodo()
+    {
+        $todo = Phake::mock('Todo');
+        Phake::when($todo)->fetchAll()->thenReturn(array(
+            array(
+                'id' => 1,
+                'task' => 'Task 1',
+                'done' => 'n',
+            ),
+        ));
+        return $todo;
+    }
+
+    public function tearDown()
+    {
+        $this->_request->reset();
+        $this->_response->reset();
     }
 
     public function testHome()
     {
         $this->dispatch('/');
-        $this->assertAction('index');
-        $this->assertResponseCode(200);
+        $this->assertAction('index')
+                ->assertResponseCode(200)
+                ->assertQuery('#todo-list');
     }
 
     public function testNotFound()
@@ -40,12 +52,9 @@ class IndexControllerTest extends Test_Controller
                 ->assertAction('add')
                 ->assertRedirectTo('./')
                 ->assertResponseCode(200)
-                ->assertQuery('#todo-list');
-    }
-
-    public function tearDown()
-    {
-        $this->_request->reset();
-        $this->_response->reset();
+                ->assertQueryContain(
+                    '#todo-list>.todo>.display>.todo-text',
+                    'Task 1'
+                );
     }
 }

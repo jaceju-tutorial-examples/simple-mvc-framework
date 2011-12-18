@@ -2,18 +2,25 @@
 
 class TodoTest extends PHPUnit_Framework_TestCase
 {
+    private $_pdo = null;
+
     private $_todo = null;
 
     public function setUp()
     {
-        $pdo = new PDO(
+        $this->_pdo = new PDO(
                 $GLOBALS['DB_DSN'],
                 $GLOBALS['DB_USER'],
                 $GLOBALS['DB_PASSWD']);
-        $pdo->query('TRUNCATE TABLE todo');
+        $this->_pdo->query('TRUNCATE TABLE todo');
 
-        Todo::setDb($pdo);
+        Todo::setDb($this->_pdo);
         $this->_todo = new Todo();
+    }
+
+    public function tearDown()
+    {
+        $this->_pdo->query('TRUNCATE TABLE todo');
     }
 
     public function testAdd()

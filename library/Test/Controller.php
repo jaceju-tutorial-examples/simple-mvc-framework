@@ -94,4 +94,17 @@ class Test_Controller extends PHPUnit_Framework_TestCase
         $this->assertGreaterThanOrEqual(1, $pq->find($selector)->size());
         return $this;
     }
+
+    /**
+     * @param string $selector
+     * @param string $content
+     * @return Test_Controller
+     */
+    public function assertQueryContain($selector, $text)
+    {
+        $content = $this->_response->getContent();
+        $pq = phpQuery::newDocument($content);
+        $this->assertEquals($text, $pq->find($selector)->text());
+        return $this;
+    }
 }

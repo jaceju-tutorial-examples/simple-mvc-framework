@@ -18,14 +18,14 @@ function autoload($className)
 
 spl_autoload_register('autoload');
 
-define('DB_DSN', 'mysql:dbname=test;host=127.0.0.1');
+define('DB_DSN', 'mysql:dbname=development;host=127.0.0.1');
 define('DB_USER', 'username');
 define('DB_PASSWD', 'password');
 
 $pdo = new PDO(DB_DSN, DB_USER, DB_PASSWD);
 Todo::setDb($pdo);
 
-$controller = new IndexController;
+$controller = new IndexController(new Todo());
 $controller->setRequest(new Request_Http())
         ->setResponse(new Response_Http())
         ->sendResponse(true)
