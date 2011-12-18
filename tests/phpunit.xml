@@ -1,0 +1,13 @@
+<phpunit colors="true" bootstrap="./bootstrap.php">
+  <testsuite name="Application Test Suite">
+    <directory>./application</directory>
+  </testsuite>
+  <testsuite name="Library Test Suite">
+    <directory>./library</directory>
+  </testsuite>
+  <php>
+    <var name="DB_DSN" value="mysql:dbname=test;host=127.0.0.1" />
+    <var name="DB_USER" value="username" />
+    <var name="DB_PASSWD" value="password" />
+  </php>
+</phpunit>
