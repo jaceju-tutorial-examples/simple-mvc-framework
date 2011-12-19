@@ -13,11 +13,11 @@ class Example extends PHPUnit_Extensions_SeleniumTestCase
         $this->type("id=new-todo", "Task 1");
         $this->keyPress("id=new-todo", "13");
         $this->waitForPageToLoad("30000");
-        $this->assertTrue($this->isTextPresent(""));
+        $this->assertTrue($this->isTextPresent("Task 1"));
         $this->type("id=new-todo", "Task 2");
         $this->keyPress("id=new-todo", "13");
         $this->waitForPageToLoad("30000");
-        $this->assertTrue($this->isTextPresent(""));
+        $this->assertTrue($this->isTextPresent("Task 2"));
   }
 }
 ?>
