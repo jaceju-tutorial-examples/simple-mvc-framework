@@ -1,7 +1,7 @@
 <?php
 require_once 'phpQuery.php';
 
-class Test_Controller extends PHPUnit_Framework_TestCase
+class Test_ControllerTestCase extends PHPUnit_Framework_TestCase
 {
     /**
      * @var Controller
@@ -29,17 +29,6 @@ class Test_Controller extends PHPUnit_Framework_TestCase
 
     /**
      * @param string $url
-     */
-    protected function _parseUrl($url)
-    {
-        $urlInfo = parse_url($url);
-        if (isset($urlInfo['query'])) {
-            parse_str($urlInfo['query'], $_GET);
-        }
-    }
-
-    /**
-     * @param string $url
      * @return Test_Controller
      */
     public function dispatch($url)
@@ -47,6 +36,17 @@ class Test_Controller extends PHPUnit_Framework_TestCase
         $this->_parseUrl($url);
         $this->_controller->dispatch();
         return $this;
+    }
+
+    /**
+     * @param string $url
+     */
+    protected function _parseUrl($url)
+    {
+        $urlInfo = parse_url($url);
+        if (isset($urlInfo['query'])) {
+            parse_str($urlInfo['query'], $_GET);
+        }
     }
 
     /**

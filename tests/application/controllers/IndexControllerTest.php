@@ -1,6 +1,6 @@
 <?php
 
-class IndexControllerTest extends Test_Controller
+class IndexControllerTest extends Test_ControllerTestCase
 {
     public function setUp()
     {

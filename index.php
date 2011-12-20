@@ -29,4 +29,4 @@ $controller = new IndexController(new Todo());
 $controller->setRequest(new Request_Http())
         ->setResponse(new Response_Http())
         ->sendResponse(true)
-        ->dispatch(true);
+        ->dispatch();
